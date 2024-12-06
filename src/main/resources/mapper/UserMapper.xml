@@ -5,4 +5,47 @@
         SELECT * FROM easyuser WHERE username=#{username} AND password = #{password} AND state = 1;
 
     </select>
+
+<!--    模糊查询-->
+    <select id="getAllUser" resultType="com.yangjian.bean.User">
+        SELECT * FROM easyUser
+        <if test="username != null">
+            WHERE username LIKE #{username}
+        </if>
+        LIMIT #{pageStart}, #{pageSize};
+    </select>
+
+    <!--    模糊查询-->
+    <select id="getUserCounts" resultType="java.lang.Integer">
+        SELECT count(*) FROM `easyuser`
+        <if test="username != null">
+            WHERE username like #{username}
+        </if>
+    </select>
+
+    <update id="updateState">
+        UPDATE easyuser SET state = #{state} WHERE id = #{id}
+    </update>
+
+    <insert id="addUser">
+        INSERT INTO easyuser
+        (username,password,email,role,state)
+        VALUE
+        (#{username},#{password},#{email},#{role},#{state})
+    </insert>
+
+    <delete id="deleteUser">
+        DELETE FROM easyuser WHERE id = #{id}
+    </delete>
+
+<!--    获得主键-->
+    <select id="getUpdateUser" resultType="com.yangjian.bean.User">
+        SELECt * FROM easyuser WHERE id = #{id}
+    </select>
+<!--    通过主键查询-->
+    <update id="editUser">
+        UPDATE easyuser SET username = #{username},password = #{password},email = #{email}
+        WHERE id = #{id}
+    </update>
+
 </mapper>
